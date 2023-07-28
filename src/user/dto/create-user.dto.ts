@@ -1,8 +1,8 @@
 export class CreateUserDto {
-    id: string; // uuid v4
     login: string;
     password: string;
-    version: number; // integer number, increments on update
-    createdAt: number; // timestamp of creation
-    updatedAt: number; // timestamp of last update
+    constructor(a: string, b: string){
+        this.login = a
+        this.password = b
+    }
 }

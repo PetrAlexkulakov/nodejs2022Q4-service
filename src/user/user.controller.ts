@@ -16,14 +16,12 @@ export class UserController {
   @Get()
   findAll(@Res() res: Response) {
     res.status(200).json(this.userService.findAll());
-    // return this.userService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string, @Res() res: Response) {
     const { resp, status } = this.userService.findOne(id)
     res.status(status).json(resp);
-    // return this.userService.findOne(+id);
   }
 
   @Patch(':id')
