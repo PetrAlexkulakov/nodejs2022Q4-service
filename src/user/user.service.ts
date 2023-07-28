@@ -9,6 +9,15 @@ import { createOneUser } from 'src/DB/users';
 
 @Injectable()
 export class UserService {
+  private checkId(id: string) {
+    const resp = users.find(user => user.id === id)
+
+    if (!isUUID(id)) {
+      throw new HttpException('userId is invalid (not uuid)', 400);
+    } else if (resp === undefined) {
+      throw new HttpException('record with id === userId does not exist', 404);
+    }
+  }
   create(createUserDto: CreateUserDto) {
     if (!hasSameProperties(createUserDto, new CreateUserDto('1', '2'))) {
       throw new HttpException('request body does not contain required fields', 400);
@@ -25,12 +34,8 @@ export class UserService {
 
   findOne(id: string) {
     const resp = users.find(user => user.id === id)
+    this.checkId(id)
 
-    if (!isUUID(id)) {
-      throw new HttpException('userId is invalid (not uuid)', 400);
-    } else if (resp === undefined) {
-      throw new HttpException('record with id === userId does not exist', 404);
-    }
     return { resp: resp, status: 200 }
   }
 
@@ -38,7 +43,11 @@ export class UserService {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  remove(id: string) {
+    this.checkId(id)
+    const index = users.findIndex((user) => user.id === id);
+    users.splice(index, 1)[0];
+
+    return { status: 204 }
   }
 }

@@ -30,7 +30,8 @@ export class UserController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  remove(@Param('id') id: string, @Res() res: Response) {
+    const { status } = this.userService.remove(id);
+    res.status(status).json();
   }
 }
