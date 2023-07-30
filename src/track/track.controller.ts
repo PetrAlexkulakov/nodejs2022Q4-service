@@ -9,8 +9,9 @@ export class TrackController {
   constructor(private readonly trackService: TrackService) {}
 
   @Post()
-  create(@Body() createTrackDto: CreateTrackDto) {
-    return this.trackService.create(createTrackDto);
+  create(@Body() createTrackDto: CreateTrackDto, @Res() res: Response) {
+    const { resp, status } = this.trackService.create(createTrackDto)
+    res.status(status).json(resp);
   }
 
   @Get()
@@ -19,8 +20,9 @@ export class TrackController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.trackService.findOne(+id);
+  findOne(@Param('id') id: string, @Res() res: Response) {
+    const { resp, status } = this.trackService.findOne(id)
+    res.status(status).json(resp);
   }
 
   @Put(':id')

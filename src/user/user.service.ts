@@ -2,23 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { users } from 'src/DB/users';
-import { isUUID } from 'class-validator';
 import { HttpException } from '@nestjs/common';
 import { hasSameProperties } from 'src/share/hasSameProperties';
 import { createOneUser } from 'src/DB/users';
 import { User } from 'src/interfaces/interfaces';
+import { checkId } from 'src/share/checkId';
 
 @Injectable()
 export class UserService {
-  private checkId(id: string) {
-    const resp = users.find(user => user.id === id)
-
-    if (!isUUID(id)) {
-      throw new HttpException('userId is invalid (not uuid)', 400);
-    } else if (resp === undefined) {
-      throw new HttpException('record with id === userId does not exist', 404);
-    }
-  }
   private throwOutProperty(obj: User, property: keyof User) {
     const { [property]: _, ...rest } = obj;
     return rest;
@@ -40,7 +31,7 @@ export class UserService {
   }
 
   findOne(id: string) {
-    this.checkId(id)
+    checkId(id, users)
 
     const resp = this.throwOutProperty(users.find(user => user.id === id), 'password');
 
@@ -51,7 +42,7 @@ export class UserService {
     if (!hasSameProperties(updateUserDto, new UpdateUserDto('1', '2'))) {
       throw new HttpException('request body does not contain required fields', 400);
     }
-    this.checkId(id)
+    checkId(id, users)
 
     const user = users.find(user => user.id === id)
     if(updateUserDto.oldPassword !== user.password) {
@@ -64,7 +55,7 @@ export class UserService {
   }
 
   remove(id: string) {
-    this.checkId(id)
+    checkId(id, users)
     const index = users.findIndex((user) => user.id === id);
     users.splice(index, 1)[0];
 
