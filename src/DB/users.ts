@@ -1,4 +1,4 @@
-import { User } from 'src/interfaces/interfaces';
+import { User } from 'src/user/entities/user.entity';
 import { generateUniqueId } from 'src/share/generateUniqueId';
 
 export const createOneUser = (login: string, password: string) => {
