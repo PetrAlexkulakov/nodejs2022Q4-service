@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Param, Delete, Res, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Res,
+  Put,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -10,7 +19,7 @@ export class UserController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
-    const { resp, status } = this.userService.create(createUserDto)
+    const { resp, status } = this.userService.create(createUserDto);
     res.status(status).json(resp);
   }
 
@@ -21,12 +30,16 @@ export class UserController {
 
   @Get(':id')
   findOne(@Param('id') id: string, @Res() res: Response) {
-    const { resp, status } = this.userService.findOne(id)
+    const { resp, status } = this.userService.findOne(id);
     res.status(status).json(resp);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto, @Res() res: Response) {
+  update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Res() res: Response,
+  ) {
     const { resp, status } = this.userService.update(id, updateUserDto);
     res.status(status).json(resp);
   }
