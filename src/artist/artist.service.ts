@@ -50,10 +50,13 @@ export class ArtistService {
 
   remove(id: string) {
     checkId(id, artists);
-    // const artistsTrack = tracks.find((track) => track.artistId === id)
-    // artistsTrack.artistId = null;
+
     const index = artists.findIndex((user) => user.id === id);
     artists.splice(index, 1)[0];
+    // const artistsTrack = tracks.find((track) => track.artistId === id)
+    // artistsTrack.artistId = null;
+    // const artistsAlbum = tracks.find((track) => track.artistId === id)
+    // artistsAlbum.artistId = null;
 
     return { status: 204 };
   }
