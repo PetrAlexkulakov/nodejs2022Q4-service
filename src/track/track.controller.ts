@@ -26,12 +26,14 @@ export class TrackController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateTrackDto: UpdateTrackDto) {
-    return this.trackService.update(+id, updateTrackDto);
+  update(@Param('id') id: string, @Body() updateTrackDto: UpdateTrackDto, @Res() res: Response) {
+    const { resp, status } = this.trackService.update(id, updateTrackDto);
+    res.status(status).json(resp);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.trackService.remove(+id);
+  remove(@Param('id') id: string, @Res() res: Response) {
+    const { status } = this.trackService.remove(id);
+    res.status(status).json();
   }
 }
