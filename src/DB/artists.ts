@@ -5,7 +5,7 @@ export const createOneArtist = (name: string, grammy: boolean) => {
   return {
     id: generateUniqueId(),
     name,
-    grammy
+    grammy,
   };
 };
 

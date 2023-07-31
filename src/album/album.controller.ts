@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+  Res,
+} from '@nestjs/common';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
@@ -26,10 +35,14 @@ export class AlbumController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateAlbumDto: UpdateAlbumDto,@Res() res: Response,) {
-  const { resp, status } = this.albumService.update(id, updateAlbumDto);
-  res.status(status).json(resp);
-}
+  update(
+    @Param('id') id: string,
+    @Body() updateAlbumDto: UpdateAlbumDto,
+    @Res() res: Response,
+  ) {
+    const { resp, status } = this.albumService.update(id, updateAlbumDto);
+    res.status(status).json(resp);
+  }
   @Delete(':id')
   remove(@Param('id') id: string, @Res() res: Response) {
     const { status } = this.albumService.remove(id);

@@ -8,16 +8,12 @@ import { tracks } from 'src/DB/tracks';
 
 @Injectable()
 export class FavsService {
-  private checkIdWith422(id: string, array: any){
+  private checkIdWith422(id: string, array: any) {
     const resp = array.find((elem: any) => elem.id === id);
 
     if (resp === undefined) {
       throw new HttpException('record with id does not exist', 422);
     }
-  }
-
-  create(createFavDto: CreateFavDto) {
-    return 'This action adds a new fav';
   }
 
   findAll() {
@@ -38,6 +34,46 @@ export class FavsService {
     this.checkIdWith422(id, tracks);
     favorites.tracks.push(id);
 
-    return { resp:"Track was added to favorites", status: 201 }
+    return { resp: 'Track was added to favorites', status: 201 };
+  }
+
+  removeTrack(id: string) {
+    this.checkIdWith422(id, tracks);
+    const index = favorites.tracks.findIndex((index) => index === id);
+    favorites.tracks.splice(index, 1);
+
+    return { status: 204 };
+  }
+
+  addAlbum(id: string) {
+    this.checkIdWith422(id, albums);
+
+    favorites.albums.push(id);
+
+    return { resp: 'Album was added to favorites', status: 201 };
+  }
+
+  removeAlbum(id: string) {
+    this.checkIdWith422(id, albums);
+    const index = favorites.albums.findIndex((index) => index === id);
+    favorites.albums.splice(index, 1);
+
+    return { status: 204 };
+  }
+
+  addArtist(id: string) {
+    this.checkIdWith422(id, artists);
+
+    favorites.artists.push(id);
+
+    return { resp: 'Artist was added to favorites', status: 201 };
+  }
+
+  removeArtist(id: string) {
+    this.checkIdWith422(id, artists);
+    const index = favorites.artists.findIndex((index) => index === id);
+    favorites.artists.splice(index, 1);
+
+    return { status: 204 };
   }
 }

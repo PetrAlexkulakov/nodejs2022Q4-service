@@ -15,7 +15,10 @@ export class ArtistService {
         400,
       );
     }
-    const nwArtists = createOneArtist(createArtistDto.name, createArtistDto.grammy);
+    const nwArtists = createOneArtist(
+      createArtistDto.name,
+      createArtistDto.grammy,
+    );
     artists.push(nwArtists);
 
     return { resp: nwArtists, status: 201 };
@@ -28,7 +31,7 @@ export class ArtistService {
   findOne(id: string) {
     checkId(id, artists);
 
-    const resp = artists.find((artist) => artist.id === id)
+    const resp = artists.find((artist) => artist.id === id);
 
     return { resp: resp, status: 200 };
   }
@@ -44,7 +47,7 @@ export class ArtistService {
 
     const artist = artists.find((artist) => artist.id === id);
     artist.grammy = updateArtistDto.grammy;
-    artist.name = updateArtistDto.name
+    artist.name = updateArtistDto.name;
     return { resp: artist, status: 200 };
   }
 

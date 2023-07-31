@@ -1,12 +1,16 @@
 import { Album } from 'src/album/entities/album.entity';
 import { generateUniqueId } from 'src/share/generateUniqueId';
 
-export const createOneAlbum = (name: string, year: number, artistId: string | null) => {
+export const createOneAlbum = (
+  name: string,
+  year: number,
+  artistId: string | null,
+) => {
   return {
     id: generateUniqueId(),
     name,
     year,
-    artistId
+    artistId,
   };
 };
 

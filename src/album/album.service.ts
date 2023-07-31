@@ -15,7 +15,11 @@ export class AlbumService {
         400,
       );
     }
-    const nwAlbum = createOneAlbum(createAlbumDto.name, createAlbumDto.year, createAlbumDto.artistId);
+    const nwAlbum = createOneAlbum(
+      createAlbumDto.name,
+      createAlbumDto.year,
+      createAlbumDto.artistId,
+    );
     albums.push(nwAlbum);
 
     return { resp: nwAlbum, status: 201 };
@@ -28,13 +32,22 @@ export class AlbumService {
   findOne(id: string) {
     checkId(id, albums);
 
-    const resp = albums.find((album) => album.id === id)
+    const resp = albums.find((album) => album.id === id);
 
     return { resp: resp, status: 200 };
   }
 
   update(id: string, updateAlbumDto: UpdateAlbumDto) {
-    if (!hasSameProperties(updateAlbumDto, new UpdateAlbumDto('1', 2000, '2') || !hasSameProperties(updateAlbumDto, new UpdateAlbumDto('1', 2000, null)))) {
+    if (
+      !hasSameProperties(
+        updateAlbumDto,
+        new UpdateAlbumDto('1', 2000, '2') ||
+          !hasSameProperties(
+            updateAlbumDto,
+            new UpdateAlbumDto('1', 2000, null),
+          ),
+      )
+    ) {
       throw new HttpException(
         'request body does not contain required fields',
         400,
@@ -43,10 +56,10 @@ export class AlbumService {
     checkId(id, albums);
 
     const album = albums.find((album) => album.id === id);
-    album.name = updateAlbumDto.name
-    album.year = updateAlbumDto.year
-    album.artistId = updateAlbumDto.artistId
-    
+    album.name = updateAlbumDto.name;
+    album.year = updateAlbumDto.year;
+    album.artistId = updateAlbumDto.artistId;
+
     return { resp: album, status: 200 };
   }
 
