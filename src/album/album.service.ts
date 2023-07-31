@@ -5,11 +5,15 @@ import { albums, createOneAlbum } from 'src/DB/albums';
 import { checkId } from 'src/share/checkId';
 import { hasSameProperties } from 'src/share/hasSameProperties';
 import { tracks } from 'src/DB/tracks';
+import { favorites } from 'src/DB/favorites';
 
 @Injectable()
 export class AlbumService {
   create(createAlbumDto: CreateAlbumDto) {
-    if (!hasSameProperties(createAlbumDto, new CreateAlbumDto('1', 2, null))) {
+    if (
+      !hasSameProperties(createAlbumDto, new CreateAlbumDto('1', 2, null)) &&
+      !hasSameProperties(createAlbumDto, new CreateAlbumDto('1', 2, 'null'))
+    ) {
       throw new HttpException(
         'request body does not contain required fields',
         400,
@@ -67,9 +71,11 @@ export class AlbumService {
     checkId(id, albums);
 
     const index = albums.findIndex((album) => album.id === id);
-    albums.splice(index, 1)[0];
-    // const track = tracks.find((track) => track.albumId === id)
-    // track.albumId = null
+    albums.splice(index, 1);
+    favorites.removeAlbum(id);
+    tracks.forEach((t) => {
+      if (t.albumId === id) t.albumId = null;
+    });
 
     return { status: 204 };
   }

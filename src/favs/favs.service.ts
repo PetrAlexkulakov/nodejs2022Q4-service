@@ -55,8 +55,7 @@ export class FavsService {
 
   removeAlbum(id: string) {
     this.checkIdWith422(id, albums);
-    const index = favorites.albums.findIndex((index) => index === id);
-    favorites.albums.splice(index, 1);
+    favorites.removeAlbum(id);
 
     return { status: 204 };
   }
@@ -71,8 +70,7 @@ export class FavsService {
 
   removeArtist(id: string) {
     this.checkIdWith422(id, artists);
-    const index = favorites.artists.findIndex((index) => index === id);
-    favorites.artists.splice(index, 1);
+    favorites.removeArtist(id);
 
     return { status: 204 };
   }

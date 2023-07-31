@@ -8,7 +8,18 @@ import { hasSameProperties } from 'src/share/hasSameProperties';
 @Injectable()
 export class TrackService {
   create(crTrackDto: CreateTrackDto) {
-    if (!hasSameProperties(crTrackDto, new CreateTrackDto('1', 2))) {
+    if (
+      !hasSameProperties(crTrackDto, new CreateTrackDto('1', null, null, 2)) &&
+      !hasSameProperties(
+        crTrackDto,
+        new CreateTrackDto('1', 'null', null, 2),
+      ) &&
+      !hasSameProperties(
+        crTrackDto,
+        new CreateTrackDto('1', null, 'null', 2),
+      ) &&
+      !hasSameProperties(crTrackDto, new CreateTrackDto('1', 'null', 'null', 2))
+    ) {
       throw new HttpException(
         'request body does not contain required fields',
         400,

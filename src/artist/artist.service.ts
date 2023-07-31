@@ -5,6 +5,8 @@ import { artists, createOneArtist } from 'src/DB/artists';
 import { checkId } from 'src/share/checkId';
 import { hasSameProperties } from 'src/share/hasSameProperties';
 import { tracks } from 'src/DB/tracks';
+import { favorites } from 'src/DB/favorites';
+import { albums } from 'src/DB/albums';
 
 @Injectable()
 export class ArtistService {
@@ -56,10 +58,13 @@ export class ArtistService {
 
     const index = artists.findIndex((user) => user.id === id);
     artists.splice(index, 1)[0];
-    // const artistsTrack = tracks.find((track) => track.artistId === id)
-    // artistsTrack.artistId = null;
-    // const artistsAlbum = tracks.find((track) => track.artistId === id)
-    // artistsAlbum.artistId = null;
+    favorites.removeArtist(id);
+    tracks.forEach((t) => {
+      if (t.artistId === id) t.artistId = null;
+    });
+    albums.forEach((a) => {
+      if (a.artistId === id) a.artistId = null;
+    });
 
     return { status: 204 };
   }
