@@ -38,6 +38,7 @@ export class AlbumService {
   }
 
   update(id: string, updateAlbumDto: UpdateAlbumDto) {
+    checkId(id, albums);
     if (
       !hasSameProperties(
         updateAlbumDto,
@@ -53,7 +54,6 @@ export class AlbumService {
         400,
       );
     }
-    checkId(id, albums);
 
     const album = albums.find((album) => album.id === id);
     album.name = updateAlbumDto.name;
