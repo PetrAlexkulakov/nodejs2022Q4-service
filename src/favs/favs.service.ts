@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { CreateFavDto } from './dto/create-fav.dto';
 import { UpdateFavDto } from './dto/update-fav.dto';
 import { favorites } from 'src/DB/favorites';
@@ -8,6 +8,14 @@ import { tracks } from 'src/DB/tracks';
 
 @Injectable()
 export class FavsService {
+  private checkIdWith422(id: string, array: any){
+    const resp = array.find((elem: any) => elem.id === id);
+
+    if (resp === undefined) {
+      throw new HttpException('record with id does not exist', 422);
+    }
+  }
+
   create(createFavDto: CreateFavDto) {
     return 'This action adds a new fav';
   }
@@ -26,7 +34,10 @@ export class FavsService {
     };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} fav`;
+  addTrack(id: string) {
+    this.checkIdWith422(id, tracks);
+    favorites.tracks.push(id);
+
+    return { resp:"Track was added to favorites", status: 201 }
   }
 }
